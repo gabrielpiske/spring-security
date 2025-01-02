@@ -21,6 +21,7 @@ public class WebSecurityConfig {
                 .securityMatcher("/**") // * faz funcionar estas configurações na aplicação inteira
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
                         .anyRequest().authenticated());
 
         return http.build();
