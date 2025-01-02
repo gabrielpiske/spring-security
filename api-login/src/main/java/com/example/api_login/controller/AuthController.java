@@ -1,5 +1,6 @@
 package com.example.api_login.controller;
 
+import com.example.api_login.security.JwtIssuer;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api_login.model.login.LoginRequest;
@@ -11,16 +12,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
+    private final JwtIssuer jwtIssuer;
 
     @PostMapping("/auth/login")
     public LoginResponse login(@RequestBody @Validated LoginRequest request) {
-        // TODO: process POST request
-
+        var token = jwtIssuer.issue(1L, request.getEmail(), List.of("USER"));
         return LoginResponse.builder()
-                .accessToken("teste")
+                .accessToken(token)
                 .build();
     }
 
