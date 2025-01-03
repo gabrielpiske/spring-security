@@ -1,5 +1,6 @@
 package com.example.api_login.security;
 
+import com.example.api_login.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

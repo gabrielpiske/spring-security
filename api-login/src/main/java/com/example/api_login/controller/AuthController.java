@@ -1,6 +1,6 @@
 package com.example.api_login.controller;
 
-import com.example.api_login.security.JwtIssuer;
+import com.example.api_login.security.jwt.JwtIssuer;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api_login.model.login.LoginRequest;

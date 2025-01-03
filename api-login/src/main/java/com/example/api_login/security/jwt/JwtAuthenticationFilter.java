@@ -1,5 +1,6 @@
-package com.example.api_login.security;
+package com.example.api_login.security.jwt;
 
+import com.example.api_login.security.UserPrincipalAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

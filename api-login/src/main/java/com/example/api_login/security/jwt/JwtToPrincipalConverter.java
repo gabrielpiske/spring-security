@@ -1,6 +1,7 @@
-package com.example.api_login.security;
+package com.example.api_login.security.jwt;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.api_login.security.UserPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 

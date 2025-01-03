@@ -1,4 +1,4 @@
-package com.example.api_login.security;
+package com.example.api_login.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;
