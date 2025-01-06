@@ -1,5 +1,7 @@
 package com.example.api_login.controller;
 
+import com.example.api_login.security.UserPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,7 @@ public class HelloController {
     }
 
     @GetMapping("/secured")
-    public String secured(){
-        return "Você esta logado com Segurança!!";
+    public String secured(@AuthenticationPrincipal UserPrincipal principal){
+        return "Logado no usuaruio: " + principal.getEmail() + " User ID: " + principal.getUserId();
     }
 }
