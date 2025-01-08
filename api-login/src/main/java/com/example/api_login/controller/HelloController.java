@@ -18,6 +18,11 @@ public class HelloController {
 
     @GetMapping("/secured")
     public String secured(@AuthenticationPrincipal UserPrincipal principal){
-        return "Logado no usuaruio: " + principal.getEmail() + " User ID: " + principal.getUserId();
+        return "Logado como usuario: " + principal.getEmail() + " User ID: " + principal.getUserId();
+    }
+
+    @GetMapping("/admin")
+    public String admin(@AuthenticationPrincipal UserPrincipal principal){
+        return "Logado como Admin. ID: " + principal.getUserId();
     }
 }

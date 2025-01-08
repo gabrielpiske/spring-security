@@ -28,12 +28,14 @@ public class WebSecurityConfig {
         http
                 .cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(management ->
+                        management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(login -> login.disable())
                 .securityMatcher("/**") // * faz funcionar estas configurações na aplicação inteira
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         return http.build();
