@@ -1,5 +1,6 @@
 package com.example.api_login.security;
 
+import com.example.api_login.security.handler.UnauthorizedHandler;
 import com.example.api_login.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,24 +22,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService customUserDetailsService;
+    private final UnauthorizedHandler unauthorizedHandler;
 
     @Bean
     public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http
-                .cors(cors -> cors.disable())
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(management ->
-                        management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(login -> login.disable())
-                .securityMatcher("/**") // * faz funcionar estas configurações na aplicação inteira
+                .cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(AbstractHttpConfigurer::disable)
+                .exceptionHandling(h -> h.authenticationEntryPoint(unauthorizedHandler))
+                .securityMatcher("/**")
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated());
-
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
 
